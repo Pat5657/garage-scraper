@@ -13,23 +13,20 @@ URL = ENV['SITE_URL']
 async def index():
     print('Running')
 
-    try:
-        page = requests.get(URL)
+    page = requests.get(URL)
 
-        soup = BeautifulSoup(page.text, 'html.parser')
+    soup = BeautifulSoup(page.text, 'html.parser')
 
-        noneAvailableElement = soup.find('em', string="We don't have any garages available right now, please check back another time")
-        noneAvailable = bool(noneAvailableElement)
+    noneAvailableElement = soup.find('em', string="We don't have any garages available right now, please check back another time")
+    noneAvailable = bool(noneAvailableElement)
 
-        print(noneAvailable)
+    print(noneAvailable)
 
-        if noneAvailable == True: 
-            message = 'None available'
-        else:
-            message = 'AVAILABLE'
+    if noneAvailable == True: 
+        message = 'None available'
+    else:
+        message = 'AVAILABLE'
 
-        await telegramHelper.sendMessage(message)
-    except:
-        logging.exception('Failed')
+    await telegramHelper.sendMessage(message)
 
 asyncio.run(index())
