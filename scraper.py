@@ -7,11 +7,19 @@ import telegramHelper
 
 ENV = dotenv_values('.env')
 
+logging.basicConfig(
+    filename='script.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+
 URL = ENV['SITE_URL']
 
 
 async def index():
     print('Running')
+    logging.info('Running')
 
     page = requests.get(URL)
 
@@ -26,6 +34,8 @@ async def index():
         message = 'None available'
     else:
         message = 'AVAILABLE'
+
+    logging.info('Availability: ' + message)
 
     await telegramHelper.sendMessage(message)
 
